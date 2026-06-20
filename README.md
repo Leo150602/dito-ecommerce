@@ -1,64 +1,50 @@
-<<<<<<< HEAD
-# DitoEcommerce
+# E-Commerce Catalog Platform
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.3.
+  Descripción del Proyecto
 
-## Development server
+Este proyecto es una plataforma de e-commerce desarrollada desde cero, diseñada para ofrecer una experiencia de usuario fluida, predecible y altamente reactiva. La aplicación presenta un catálogo de productos segmentado por categorías, optimizado para destacar inicialmente los 4 productos con mejor calificación (rating) en cada sección.
 
-To start a local development server, run:
+La arquitectura se centra en un manejo de estado robusto y una navegación segura, garantizando la fiabilidad de la aplicación mediante un control estricto de rutas (incluyendo el manejo de wildcard routes para evitar estados o URLs inesperadas) y el aprovechamiento de las capacidades reactivas del framework.
 
-```bash
-ng serve
-```
+  Características Principales
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Catálogo Dinámico y Paginación: Vista principal categorizada con un límite inicial de los 4 mejores productos por categoría. Se implementó un botón "Ver más" que, mediante parámetros de ruta, despliega el catálogo completo y específico de dicha categoría.
+- Enrutamiento Seguro (Robust Routing): Configuración estricta de rutas (app.routes.ts) que maneja de forma proactiva las URLs inválidas, redirigiendo al usuario a flujos seguros y reduciendo comportamientos imprevistos.
+- Gestión de Estado de Navegación (RxJS): Uso de BehaviorSubject para memorizar el estado de la categoría previa. Al ingresar a los detalles de un producto y presionar "Volver", la aplicación retorna exactamente a la categoría y catálogo que el usuario estaba explorando anteriormente.
+- Carrito de Compras Reactivo (Signals): Implementación de Signals nativos para el manejo del estado global del carrito de compras. Esto permite evaluar la existencia de un producto en tiempo real, alternando dinámicamente la acción del botón entre "Agregar al carrito" o "Eliminar del carrito" desde la vista de detalles.
+- Barra de Navegación Inteligente (Navbar): Refleja de manera síncrona la cantidad total de artículos en el carrito y el precio acumulado, consumiendo directamente el estado reactivo de las Signals. Además, actúa como punto de enlace para redirigir al catálogo principal.
+- Vista de Detalles del Producto: Sección dedicada que expone la información extendida del artículo y su puntuación (rating), manteniendo una coherencia visual y de navegación limpia.
 
-## Code scaffolding
+  Tecnologías y Arquitectura
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Framework Principal: Angular (Arquitectura moderna basada en Standalone Components)
+- Lenguaje: TypeScript / HTML / SCSS
+- Gestores de Estado:
+  - Signals: Para el estado síncrono, óptimo y reactivo del carrito de compras.
+  - RxJS (BehaviorSubject): Para el control del historial y estado persistente de navegación.
+- Enrutamiento: Angular Router con control de excepciones de rutas (Wildcard).
 
-```bash
-ng generate component component-name
-```
+  Estructura del Proyecto
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+El proyecto sigue una organización limpia y escalable basada en la separación de responsabilidades:
 
-```bash
-ng generate --help
-```
+src/app/
+├── compartidos/      # Componentes UI reutilizables globalmente (ej. Navbar)
+├── modelos/          # Tipado estricto e interfaces de datos (ej. productos.ts)
+├── paginas/          # Componentes asociados al enrutamiento principal (Catálogo, Detalles)
+└── servicios/        # Lógica de negocio y manejo de flujos de datos:
+    ├── cart-service.ts      # Estado reactivo global del carrito (Signals)
+    ├── catalog-service.ts   # Gestión de categorías y segmentación de productos
+    └── product-service.ts   # Control y consumo de la información detallada de productos
 
-## Building
+  Instalación
 
-To build the project run:
+Para configurar y ejecutar este proyecto en un entorno local, asegúrese de tener instalado Node.js y Angular CLI
 
-```bash
-ng build
-```
+  1. git clone https://github.com/Leo150602/dito-ecommerce.git
+  2. cd dito-ecommerce
+  3. npm install
+  4. ng serve
+  5. acceder a http://localhost:4200/ desde un buscador
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-=======
-# dito-ecommerce
-un repositorio creado con el fin de dar respuesta a la prueba técnica enviada por la empresa dito
->>>>>>> 210e923866c887563553a1c99962bbb478e512cf
+o entrar a " https://dito-ecommerce.vercel.app/ " para ver el proyecto desplegado
