@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="row g-4">
-        <div *ngFor="let producto of categoria.productos.slice(0, cantidadMostrada)" class="col-md-3">
+        <div *ngFor="let producto of categoria.productos.slice(0, cantidadMostrada)" class="col-12 col-md-6 col-lg-3">
             <div class="card h-100 shadow-sm border-0 producto" [routerLink]="['/product',producto.id]">
                 <div class="p-3 d-flex justify-content-center">
                     <img [src]="producto.foto" [alt]="producto.nombre" class="card-img-top producto-imagen">
