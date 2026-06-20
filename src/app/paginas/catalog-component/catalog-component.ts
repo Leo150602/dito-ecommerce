@@ -1,10 +1,15 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Signal, inject } from '@angular/core';
 import { ProductService } from '../../../index';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Producto } from '../../modelos/productos';
 import { NgClass, NgForOf, NgIf } from "@angular/common";
 import { BehaviorSubject } from 'rxjs';
 import { ProductDetailsComponent } from "../product-details-component/product-details-component";
+import { CatalogService } from '../../servicios/catalog-service';
+import { routes } from '../../app.routes';
+import { Router } from '@angular/router';
+import { CartService } from '../../servicios/cart-service';
+import { ValueChangeEvent } from '@angular/forms';
 
 @Component({
   selector: 'app-catalog-component',
@@ -15,13 +20,19 @@ import { ProductDetailsComponent } from "../product-details-component/product-de
 export class CatalogComponent implements OnInit{
   constructor(private productService: ProductService,
               private ruta: ActivatedRoute,
-              private cdr: ChangeDetectorRef
+              private router: Router,
+              private cdr: ChangeDetectorRef,
+              private catalogService: CatalogService,
+              
   ) {}
 
   private seccionesSubject = new BehaviorSubject<string[]>([]);
+  public cartService = inject(CartService);
   secciones$ = this.seccionesSubject.asObservable();
   categorias: {nombre: string, productos: Producto[]}[] = [];
   cantidadMostrada = 4
+  productos = this.cartService.productosEscuchables
+  
 
   ngOnInit(): void {
 
@@ -30,6 +41,9 @@ export class CatalogComponent implements OnInit{
       const categoriaSeleccionada = param.get("catalogo")
 
       this.categorias = [];
+      console.log(categoriaSeleccionada);
+      
+      this.catalogService.guardarCategoria(categoriaSeleccionada||"all")
 
       if (categoriaSeleccionada == "all"){
         this.cargarCategorias();
@@ -78,6 +92,9 @@ export class CatalogComponent implements OnInit{
       secciones.forEach((categoria) => {
         this.productService.getProductsByCategory(categoria).subscribe((data) => {
           console.log(data);
+          if (data.length == 0) {
+            this.router.navigate(["/catalog","all"])
+          }
           
           this.categorias = [
             ...this.categorias,
@@ -89,10 +106,20 @@ export class CatalogComponent implements OnInit{
           if (secciones.length == 1){
             this.cantidadMostrada = data.length
           }else this.cantidadMostrada = 4
+          
           this.cdr.detectChanges();
         });
       });
     }
+  }
+
+  compararCarrito(compararId: number){
+    return this.cartService.compararConCarrito(compararId)
+  }
+
+  enviarAlCarrito(event: MouseEvent, producto: Producto): void {
+    event.stopPropagation(); 
+    this.cartService.agregarProducto(producto);
   }
 
 }

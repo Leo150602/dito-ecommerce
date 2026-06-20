@@ -1,15 +1,11 @@
 import { Routes } from '@angular/router';
-import {CatalogComponent, CartComponent, ProductDetailsComponent } from '../index'; 
+import {CatalogComponent, ProductDetailsComponent } from '../index'; 
 
 export const routes: Routes = [
 
     {
         path: 'catalog/:catalogo',
         component: CatalogComponent
-    },
-    {
-        path: 'cart',
-        component: CartComponent
     },
     {
         path: 'product/:id',
