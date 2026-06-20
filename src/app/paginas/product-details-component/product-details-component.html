@@ -1,1 +1,57 @@
-<p>product-details-component works!</p>
+<div class="container my-5" *ngIf="producto">
+    <div class="row g-5 align-items-center bg-white p-4 rounded shadow-sm">
+        <div class="col-md-7 text-center">
+            <div class="p-3 border rounded bg-light position-relative">
+                <div class="position-absolute top-0 start-0 m-3 bg-white bg-opacity-75 backdrop-blur shadow-sm rounded-pill px-2 py-1 d-flex align-items-center gap-1 border border-light-subtle">
+                <i class="bi bi-star-fill text-warning small"></i>
+                <span class="fw-bold text-dark small" style="font-size: 0.85rem;">
+                    {{ producto?.rating.rate || '0.0' }}
+                </span>
+                </div>
+                <img [src]="producto?.foto" 
+                    [alt]="producto?.nombre" 
+                    class="img-fluid rounded" 
+                    style="max-height: 450px; object-fit: contain;">
+            </div>
+        </div>
+        
+        <div class="col-md-5">
+            <nav aria-label="breadcrumb" class="small mb-2">
+                <ol class="breadcrumb text-muted mb-0">
+                    <li class="breadcrumb-item"><a [routerLink]="['/catalog',categoriaGuardada]" class="text-decoration-none">{{categoriaGuardada == "all"?"catalogo":categoriaGuardada}}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">producto</li>
+                </ol>
+            </nav>
+
+            <h1 class="fw-bold text-dark mb-3">{{ producto?.nombre }}</h1>
+            
+            <div class="mb-4">
+                <span class="fs-2 fw-bold text-primary">${{ producto?.precio }}</span>
+            </div>
+            
+            <hr class="text-muted my-4">
+            
+            <div class="mb-4">
+                <h5 class="fw-semibold text-secondary">Descripción del producto</h5>
+                <p class="text-muted lh-base">{{ producto?.descripcion }}</p>
+            </div>
+            
+            <div class="d-grid gap-2 d-md-flex mt-4">
+                <button (click)="enviarAlCarrito( producto)" class="btn btn-lg px-4 flex-grow-1 fw-medium" type="button" [ngClass]="compararCarrito(producto.id)?'btn-danger':'btn-primary'">
+                    <i class="bi bi-cart-plus me-2"></i>{{compararCarrito(+id)?"eliminar del carrito":"agregar al carrito"}}
+                </button>
+                <button [routerLink]="['/catalog',categoriaGuardada]" class="btn btn-outline-secondary btn-lg px-3" routerLink="/catalog/all" type="button">
+                    Volver
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div *ngIf="!producto" class="container text-center my-5 py-5">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="text-muted mt-2">Cargando detalles del producto...</p>
+</div>

@@ -1,0 +1,13 @@
+.btn-catalogo {
+  transition: all 0.3s ease;
+  background-color: transparent;
+  
+  &:hover {
+    background-color: #e7ffe7; 
+    color: var(--bs-primary) !important; 
+  }
+}
+
+.active-link {
+  background-color: #e7ffe7 !important;
+}
