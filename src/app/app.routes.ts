@@ -4,20 +4,25 @@ import {CatalogComponent, CartComponent, ProductDetailsComponent } from '../inde
 export const routes: Routes = [
 
     {
-        path: '',
+        path: 'catalogo',
         component: CatalogComponent
-    }, 
+    },
     {
         path: 'cart',
         component: CartComponent
-    }, 
+    },
     {
         path: 'product/:id',
         component: ProductDetailsComponent
     },
     {
+        path: '',
+        redirectTo: 'catalogo',
+        pathMatch: 'full'
+    },
+    {
         path: '**',
-        redirectTo: '',
+        redirectTo: 'catalogo'
     }
 
 ];
