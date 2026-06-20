@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # DitoEcommerce
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.3.
@@ -57,3 +58,7 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+=======
+# dito-ecommerce
+un repositorio creado con el fin de dar respuesta a la prueba técnica enviada por la empresa dito
+>>>>>>> 210e923866c887563553a1c99962bbb478e512cf
