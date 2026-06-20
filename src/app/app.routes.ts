@@ -4,7 +4,7 @@ import {CatalogComponent, CartComponent, ProductDetailsComponent } from '../inde
 export const routes: Routes = [
 
     {
-        path: 'catalogo',
+        path: 'catalog/:catalogo',
         component: CatalogComponent
     },
     {
@@ -17,12 +17,12 @@ export const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: 'catalogo',
+        redirectTo: 'catalog/all',
         pathMatch: 'full'
     },
     {
         path: '**',
-        redirectTo: 'catalogo'
+        redirectTo: 'catalog/all'
     }
 
 ];

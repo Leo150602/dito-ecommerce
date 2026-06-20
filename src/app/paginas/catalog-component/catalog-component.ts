@@ -1,26 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ProductService } from '../../../index';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Producto } from '../../modelos/productos';
-import { NgClass, NgForOf } from "@angular/common";
+import { NgClass, NgForOf, NgIf } from "@angular/common";
 import { BehaviorSubject } from 'rxjs';
 import { ProductDetailsComponent } from "../product-details-component/product-details-component";
 
 @Component({
   selector: 'app-catalog-component',
-  imports: [NgClass, NgForOf, ProductDetailsComponent],
+  imports: [NgClass, NgForOf, ProductDetailsComponent, RouterLink, NgIf],
   templateUrl: './catalog-component.html',
   styleUrl: './catalog-component.scss',
 })
-export class CatalogComponent {
-  constructor(private productService: ProductService) {}
+export class CatalogComponent implements OnInit{
+  constructor(private productService: ProductService,
+              private ruta: ActivatedRoute,
+              private cdr: ChangeDetectorRef
+  ) {}
 
   private seccionesSubject = new BehaviorSubject<string[]>([]);
   secciones$ = this.seccionesSubject.asObservable();
   categorias: {nombre: string, productos: Producto[]}[] = [];
+  cantidadMostrada = 4
 
   ngOnInit(): void {
-    this.cargarCategorias();
+
+    this.ruta.paramMap.subscribe(param => {
+
+      const categoriaSeleccionada = param.get("catalogo")
+
+      this.categorias = [];
+
+      if (categoriaSeleccionada == "all"){
+        this.cargarCategorias();
+      }else this.seccionesSubject.next([categoriaSeleccionada as string])
+    
+    });
+
+    
 
     this.secciones$
       .subscribe(secciones => {
@@ -46,24 +63,33 @@ export class CatalogComponent {
     });
   }
 
-  private cargarProductos(secciones:string[]): void {
+  private cargarProductos(secciones: string[]): void {
     if (secciones.includes('all')) {
       this.productService.getAllProducts().subscribe((data) => {
-        console.log(data);
-        this.categorias.push({
-          nombre: 'all',
-          productos: data
-        });
+        this.categorias = [
+          {
+            nombre: 'all',
+            productos: data,
+          },
+        ];
+        this.cdr.detectChanges();
       });
-    }else {
-      secciones.forEach((categoria)=> {
-        console.log(categoria);
+    } else {
+      secciones.forEach((categoria) => {
         this.productService.getProductsByCategory(categoria).subscribe((data) => {
           console.log(data);
-          this.categorias.push({
-            nombre: categoria,
-            productos: data
-          });
+          
+          this.categorias = [
+            ...this.categorias,
+            {
+              nombre: categoria,
+              productos: data,
+            },
+          ];
+          if (secciones.length == 1){
+            this.cantidadMostrada = data.length
+          }else this.cantidadMostrada = 4
+          this.cdr.detectChanges();
         });
       });
     }
